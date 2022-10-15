@@ -1,4 +1,7 @@
-export default function BitcoinLogo(props) {
+interface propType {
+ [key: string]: string; 
+}
+export default function BitcoinLogo(props: propType) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
