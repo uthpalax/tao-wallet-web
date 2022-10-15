@@ -28,6 +28,12 @@ This project is using remix blues-stack(https://github.com/remix-run/blues-stack
 
   > **Note:** The npm script will complete while Docker sets up the container in the background. Ensure that Docker has finished and your container is running before proceeding.
 
+- Rename .env.example to .env file
+  ```sh
+  mv .env.example .env
+  ```
+  > Change the SESSION_SECRET if you want
+
 - Initial setup:
 
   ```sh
