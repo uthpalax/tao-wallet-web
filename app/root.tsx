@@ -1,6 +1,12 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useLocation, useTransition } from "@remix-run/react";
+import { Form } from "@remix-run/react";
+import {
+  Link,
+  useLoaderData,
+  useLocation,
+  useTransition,
+} from "@remix-run/react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
@@ -18,6 +24,8 @@ import {
   BanknotesIcon,
   PaperAirplaneIcon,
   ArrowsRightLeftIcon,
+  ArrowRightOnRectangleIcon,
+  BriefcaseIcon,
   BoltIcon,
 } from "@heroicons/react/24/outline";
 
@@ -55,9 +63,12 @@ const navigation = [
     icon: PaperAirplaneIcon,
   },
   { name: "Swap", href: "/swap", icon: ArrowsRightLeftIcon },
+  { name: "Login", href: "/login", icon: ArrowRightOnRectangleIcon },
+  { name: "Sign up", href: "/join", icon: BriefcaseIcon },
 ];
 
 export default function App() {
+  const { user } = useLoaderData<typeof loader>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const transition = useTransition();
@@ -161,25 +172,17 @@ export default function App() {
                       </nav>
                     </div>
                     <div className="flex flex-shrink-0 bg-gray-700 p-4">
-                      <a href="#" className="group block flex-shrink-0">
-                        <div className="flex items-center">
-                          <div>
-                            <img
-                              className="inline-block h-10 w-10 rounded-full"
-                              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <div className="ml-3">
-                            <p className="text-base font-medium text-white">
-                              Tom Cook
-                            </p>
-                            <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">
-                              View profile
-                            </p>
+                      {user && (
+                        <div className="group block flex-shrink-0">
+                          <div className="flex items-center">
+                            <div className="ml-3">
+                              <p className="text-base font-medium text-white">
+                                {user.email}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </a>
+                      )}
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>
@@ -228,27 +231,29 @@ export default function App() {
                   ))}
                 </nav>
               </div>
-
-              {/* User profile */}
-              {/*<div className="flex flex-shrink-0 bg-gray-700 p-4">
-                <a href="#" className="group block w-full flex-shrink-0">
-                  <div className="flex items-center">
-                    <div>
-                      <img
-                        className="inline-block h-9 w-9 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-white">Tom Cook</p>
-                      <p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">
-                        View profile
-                      </p>
+              {user && (
+                <div>
+                  <div className="flex flex-shrink-0 bg-gray-700 p-4">
+                    <div className="group block w-full flex-shrink-0">
+                      <div className="flex items-center">
+                        <div className="ml-3">
+                          <p className="text-sm font-medium text-white">
+                            {user.email}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </a>
-              </div> */}
+                  <Form action="/logout" method="post">
+                    <button
+                      type="submit"
+                      className="w-full bg-slate-600 py-2 px-4 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
+                    >
+                      Logout
+                    </button>
+                  </Form>
+                </div>
+              )}
             </div>
           </div>
           <div className="flex flex-1 flex-col md:pl-64">
