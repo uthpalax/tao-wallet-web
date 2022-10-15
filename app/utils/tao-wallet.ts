@@ -1,15 +1,14 @@
 import TaoWallet from "tao-wallet";
+import { getUserLnmSecret } from "~/models/user.server";
+import { requireUserId } from "~/session.server";
 
-export const getTaoWallet = async () => {
-  try {
-    const crypto = await import("node:crypto");
-    const lnmSecret = crypto.randomBytes(16).toString("hex");
-    const tao = new TaoWallet({ lnmSecret, network: "testnet" });
-    await tao.login();
-    return tao;
-  } catch (error) {
-    console.log("crypto support is disabled");
-  }
+export const getTaoWallet = async (request: Request) => {
+  const userId = await requireUserId(request);
+  const lnmSecret = await getUserLnmSecret(userId);
+
+  const tao = new TaoWallet({ lnmSecret, network: process.env.NETWORK });
+  await tao.login();
+  return tao;
 };
 
 export { default } from "tao-wallet";

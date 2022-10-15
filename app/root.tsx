@@ -1,6 +1,6 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useLocation } from "@remix-run/react";
+import { Link, useLocation, useTransition } from "@remix-run/react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
@@ -60,6 +60,7 @@ const navigation = [
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const transition = useTransition();
 
   function currentRoute(path: string) {
     return path === location.pathname;
@@ -262,8 +263,8 @@ export default function App() {
               </button>
             </div>
             <main className="flex-1">
-              <div className="py-6">
-                <Outlet />
+              <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
+                {transition.state === "loading" ? "loading..." : <Outlet />}
               </div>
             </main>
           </div>

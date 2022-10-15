@@ -15,6 +15,8 @@ export async function getUserByEmail(email: User["email"]) {
 
 export async function createUser(email: User["email"], password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
+  const crypto = await import("node:crypto");
+  const lnmSecret = crypto.randomBytes(16).toString("hex");
 
   return prisma.user.create({
     data: {
@@ -22,10 +24,24 @@ export async function createUser(email: User["email"], password: string) {
       password: {
         create: {
           hash: hashedPassword,
+          lnmSecret,
         },
       },
     },
   });
+}
+
+export async function getUserLnmSecret(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      password: true,
+    },
+  });
+
+  return user?.password?.lnmSecret;
 }
 
 export async function deleteUserByEmail(email: User["email"]) {
