@@ -1,6 +1,6 @@
 # Tao Wallet Web
 
-Learn more about [Remix Stacks](https://github.com/dannydeezy/tao-wallet).
+Learn more about [Tao Wallet](https://github.com/dannydeezy/tao-wallet).
 
 ## What's in the stack
 
@@ -48,14 +48,6 @@ This project is using remix blues-stack(https://github.com/remix-run/blues-stack
 
 This starts your app in development mode, rebuilding assets on file changes.
 
-The database seed script creates a new user with some data you can use to get started:
+## Deployed on Fly
 
-- Email: `rachel@remix.run`
-- Password: `racheliscool`
-
-If you'd prefer not to use Docker, you can also use Fly's Wireguard VPN to connect to a development database (or even your production database). You can find the instructions to set up Wireguard [here](https://fly.io/docs/reference/private-networking/#install-your-wireguard-app), and the instructions for creating a development database [here](https://fly.io/docs/reference/postgres/).
-
-## Deployed
-
-- [Staging](tao-wallet-web-6fe3-staging.fly.dev)
-- [Production](tao-wallet-web-6fe3.fly.dev)
+- [Check it out](https://tao-wallet-web-6fe3.fly.dev)
