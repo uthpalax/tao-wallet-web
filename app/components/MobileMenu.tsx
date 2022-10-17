@@ -3,15 +3,15 @@ import { Fragment } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { classNames } from "~/utils/index";
-import { HeroIcon } from "~/types";
+import type { HeroIcon } from "~/types";
 
 type PropsType = {
   currentRoute: (value: string) => boolean;
   setSidebarOpen: (value: boolean) => void;
   navigation: { name: string; href: string; icon: HeroIcon }[];
   sidebarOpen: boolean;
-  user: { email: string};
-}
+  user: { email: string };
+};
 
 export default function MobileMenu({
   currentRoute,
@@ -76,9 +76,9 @@ export default function MobileMenu({
               <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                 <div className="flex flex-shrink-0 items-center px-4">
                   <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    className="h-10 w-auto rounded-md"
+                    src="/tao-wallet-logo-black.jpeg"
+                    alt="Tao wallet"
                   />
                 </div>
                 <nav className="mt-5 space-y-1 px-2">

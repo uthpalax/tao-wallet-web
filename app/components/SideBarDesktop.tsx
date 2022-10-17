@@ -1,13 +1,17 @@
 import { Link, Form } from "@remix-run/react";
 import { classNames } from "~/utils/index";
-import { HeroIcon } from "~/types";
+import type { HeroIcon } from "~/types";
 
 type PropsType = {
   currentRoute: (value: string) => boolean;
   navigation: { name: string; href: string; icon: HeroIcon }[];
-  user: { email: string};
-}
-export default function SideBarDesktop({ navigation, currentRoute, user }: PropsType) {
+  user: { email: string };
+};
+export default function SideBarDesktop({
+  navigation,
+  currentRoute,
+  user,
+}: PropsType) {
   return (
     <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       {/* Sidebar component, swap this element with another sidebar if you like */}
@@ -15,9 +19,9 @@ export default function SideBarDesktop({ navigation, currentRoute, user }: Props
         <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
           <div className="flex flex-shrink-0 items-center px-4">
             <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              alt="Your Company"
+              className="h-10 w-auto rounded-md"
+              src="/tao-wallet-logo-black.jpeg"
+              alt="Tao wallet"
             />
           </div>
           <nav className="mt-5 flex-1 space-y-1 px-2">
