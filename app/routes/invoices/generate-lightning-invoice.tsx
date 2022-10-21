@@ -13,7 +13,7 @@ export async function action({ request }: ActionArgs) {
   await requireUserId(request);
   const formData = await request.formData();
   const amountInSats = formData.get("amountInSats");
-  console.log(parseInt(amountInSats))
+
   if (typeof amountInSats !== "string" || parseInt(amountInSats) < 100) {
     return json({
       errors: {

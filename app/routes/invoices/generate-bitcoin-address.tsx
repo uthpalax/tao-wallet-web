@@ -64,7 +64,7 @@ export default function NewInvoice() {
             <textarea
               defaultValue={actionData.bitcoinAddress}
               className="mt-8 w-full rounded-md border border-gray-200 p-3"
-              rows="3"
+              rows={3}
               readOnly
             ></textarea>
             <button
