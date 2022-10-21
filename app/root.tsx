@@ -32,7 +32,7 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Tao Wallet Web",
+  title: "Tao Wallet",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -44,18 +44,27 @@ export async function loader({ request }: LoaderArgs) {
 
 const navigation: { name: string; href: string; icon: HeroIcon }[] = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
-  { name: "Receive", href: "/invoices/new", icon: BanknotesIcon },
+  {
+    name: "Receive Lightning Bitcoin",
+    href: "/invoices/generate-lightning-invoice",
+    icon: BanknotesIcon,
+  },
+  {
+    name: "Receive Onchain Bitcoin",
+    href: "/invoices/generate-bitcoin-address",
+    icon: BanknotesIcon,
+  },
   {
     name: "Send Lightning Bitcoin",
-    href: "/invoices/lightning-send",
+    href: "/invoices/send-lightning",
     icon: BoltIcon,
   },
   {
     name: "Send Onchain Bitcoin",
-    href: "/invoices/bitcoin-send",
+    href: "/invoices/send-bitcoin",
     icon: PaperAirplaneIcon,
   },
-  { name: "Swap", href: "/swap", icon: ArrowsRightLeftIcon },
+  { name: "Swap USD and BTC ", href: "/swap", icon: ArrowsRightLeftIcon },
 ];
 
 export default function App() {

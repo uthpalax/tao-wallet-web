@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, Form } from "@remix-run/react";
 import { Fragment } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -92,6 +92,7 @@ export default function MobileMenu({
                           : "text-gray-300 hover:bg-gray-700 hover:text-white",
                         "group flex items-center rounded-md px-2 py-2 text-base font-medium"
                       )}
+                      onClick={() => setSidebarOpen(false)}
                     >
                       <item.icon
                         className={classNames(
@@ -107,18 +108,24 @@ export default function MobileMenu({
                   ))}
                 </nav>
               </div>
-              <div className="flex flex-shrink-0 bg-gray-700 p-4">
-                {user && (
-                  <div className="group block flex-shrink-0">
-                    <div className="flex items-center">
-                      <div className="ml-3">
-                        <p className="text-base font-medium text-white">
-                          {user.email}
-                        </p>
-                      </div>
+              <div className="flex flex-shrink-0 flex-col bg-gray-700 p-4">
+                <div className="group block flex-shrink-0">
+                  <div className="flex items-center">
+                    <div className="mb-3">
+                      <p className="text-base font-medium text-white">
+                        {user.email}
+                      </p>
                     </div>
                   </div>
-                )}
+                </div>
+                <Form action="/logout" method="post">
+                  <button
+                    type="submit"
+                    className="w-full bg-slate-600 py-2 px-4 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
+                  >
+                    Logout
+                  </button>
+                </Form>
               </div>
             </Dialog.Panel>
           </Transition.Child>
