@@ -45,7 +45,7 @@
     "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tao-wallet": "^2.2.0",
+    "tao-wallet": "^2.5.0",
     "tiny-invariant": "^1.2.0"
   },
   "devDependencies": {
