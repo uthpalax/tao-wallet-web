@@ -25,7 +25,7 @@ export async function encryptAllSecrets() {
     },
   });
 
-  const results = usersWithUnecryptedLnmSecrets.forEach(async (data) => {
+  usersWithUnecryptedLnmSecrets.forEach(async (data) => {
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
     const encrypted = Buffer.concat([
@@ -39,7 +39,7 @@ export async function encryptAllSecrets() {
         userId: data.userId,
       },
       data: {
-        lnmSecret: encryptedLnmSecret,
+        encryptedLnmSecret,
         iv: iv.toString("hex"),
       },
     });
@@ -66,7 +66,6 @@ export async function createUser(email: User["email"], password: string) {
   const encrypted = Buffer.concat([cipher.update(lnmSecret), cipher.final()]);
 
   const encryptedLnmSecret = encrypted.toString("hex");
-  console.log("encrypted", encryptedLnmSecret);
 
   return prisma.user.create({
     data: {
@@ -74,7 +73,8 @@ export async function createUser(email: User["email"], password: string) {
       password: {
         create: {
           hash: hashedPassword,
-          lnmSecret: encryptedLnmSecret,
+          lnmSecret,
+          encryptedLnmSecret,
           iv: iv.toString("hex"),
         },
       },
@@ -94,7 +94,7 @@ export async function getUserLnmSecret(userId: string) {
     },
   });
 
-  if (!user?.password?.lnmSecret || !user?.password?.iv) {
+  if (!user?.password?.encryptedLnmSecret || !user?.password?.iv) {
     return null;
   }
   const decipher = crypto.createDecipheriv(
@@ -104,7 +104,7 @@ export async function getUserLnmSecret(userId: string) {
   );
 
   const decrpyted = Buffer.concat([
-    decipher.update(Buffer.from(user.password.lnmSecret, "hex")),
+    decipher.update(Buffer.from(user.password.encryptedLnmSecret, "hex")),
     decipher.final(),
   ]);
 
