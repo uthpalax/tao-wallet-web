@@ -20,6 +20,8 @@ model User {
 model Password {
   hash String
   lnmSecret String
+  iv String @default("")
+  encryptedLnmSecret String @default("")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
 }
