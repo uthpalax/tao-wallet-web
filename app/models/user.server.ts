@@ -13,11 +13,11 @@ export type { User } from "@prisma/client";
 
 export async function encryptAllSecrets() {
   const crypto = await import("node:crypto");
-  const algorithm = "aes-256-ctr";
-  if (!process.env.ENCRYPTION_KEY_1 || !process.env.ENCRYPTION_KEY_2) {
-    throw new Error("Please setup encryption keys");
-  }
-  const secretKey = process.env.ENCRYPTION_KEY_1 + process.env.ENCRYPTION_KEY_2;
+  const byte32SecretKey = crypto
+    .createHash("sha256")
+    .update(secretKey)
+    .digest("base64")
+    .substring(0, 32);
 
   const usersWithUnecryptedLnmSecrets = await prisma.password.findMany({
     where: {
@@ -27,7 +27,7 @@ export async function encryptAllSecrets() {
 
   usersWithUnecryptedLnmSecrets.forEach(async (data) => {
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
+    const cipher = crypto.createCipheriv(algorithm, byte32SecretKey, iv);
     const encrypted = Buffer.concat([
       cipher.update(data.lnmSecret),
       cipher.final(),
@@ -60,9 +60,14 @@ export async function createUser(email: User["email"], password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
   const crypto = await import("node:crypto");
   const lnmSecret = crypto.randomBytes(16).toString("hex");
+  const byte32SecretKey = crypto
+    .createHash("sha256")
+    .update(secretKey)
+    .digest("base64")
+    .substring(0, 32);
 
   const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
+  const cipher = crypto.createCipheriv(algorithm, byte32SecretKey, iv);
   const encrypted = Buffer.concat([cipher.update(lnmSecret), cipher.final()]);
 
   const encryptedLnmSecret = encrypted.toString("hex");
@@ -84,6 +89,11 @@ export async function createUser(email: User["email"], password: string) {
 
 export async function getUserLnmSecret(userId: string) {
   const crypto = await import("node:crypto");
+  const byte32SecretKey = crypto
+    .createHash("sha256")
+    .update(secretKey)
+    .digest("base64")
+    .substring(0, 32);
 
   const user = await prisma.user.findUnique({
     where: {
@@ -99,7 +109,7 @@ export async function getUserLnmSecret(userId: string) {
   }
   const decipher = crypto.createDecipheriv(
     algorithm,
-    secretKey,
+    byte32SecretKey,
     Buffer.from(user.password.iv, "hex")
   );
 
