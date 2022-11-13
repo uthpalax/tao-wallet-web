@@ -1,6 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { prisma } from "~/db.server";
 import { encryptAllSecrets } from "~/models/user.server";
 
 export async function loader() {
