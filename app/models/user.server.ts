@@ -11,43 +11,6 @@ const secretKey = process.env.ENCRYPTION_KEY_1 + process.env.ENCRYPTION_KEY_2;
 
 export type { User } from "@prisma/client";
 
-export async function encryptAllSecrets() {
-  const crypto = await import("node:crypto");
-  const byte32SecretKey = crypto
-    .createHash("sha256")
-    .update(secretKey)
-    .digest("base64")
-    .substring(0, 32);
-
-  const usersWithUnecryptedLnmSecrets = await prisma.password.findMany({
-    where: {
-      iv: "",
-    },
-  });
-
-  usersWithUnecryptedLnmSecrets.forEach(async (data) => {
-    const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv(algorithm, byte32SecretKey, iv);
-    const encrypted = Buffer.concat([
-      cipher.update(data.lnmSecret),
-      cipher.final(),
-    ]);
-
-    const encryptedLnmSecret = encrypted.toString("hex");
-    const user = await prisma.password.update({
-      where: {
-        userId: data.userId,
-      },
-      data: {
-        encryptedLnmSecret,
-        iv: iv.toString("hex"),
-      },
-    });
-
-    return user.userId;
-  });
-}
-
 export async function getUserById(id: User["id"]) {
   return prisma.user.findUnique({ where: { id } });
 }
@@ -78,7 +41,6 @@ export async function createUser(email: User["email"], password: string) {
       password: {
         create: {
           hash: hashedPassword,
-          lnmSecret,
           encryptedLnmSecret,
           iv: iv.toString("hex"),
         },
