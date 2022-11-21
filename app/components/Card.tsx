@@ -3,7 +3,7 @@ import { classNames } from "~/utils/index";
 
 interface CardPropType {
   name: string;
-  balance: number | string;
+  balance: number;
   balance30DaysAgo: number;
 }
 

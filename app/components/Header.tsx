@@ -33,7 +33,7 @@ export default function Header({
         />
         <Card
           name="Portfolio Value In USD"
-          balance={usdEquivalent}
+          balance={parseFloat(usdEquivalent)}
           balance30DaysAgo={balance30DaysAgo.balanceUsd + parseFloat(balance30DaysAgo.usdEquivalent)}
         />
       </dl>
