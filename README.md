@@ -56,4 +56,4 @@ This starts your app in development mode, rebuilding assets on file changes.
 
 ## Deployed on Fly
 
-- [Check it out](https://tao-wallet-web-6fe3.fly.dev)
+- [taowallet.io](https://taowallet.io)
