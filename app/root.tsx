@@ -20,7 +20,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import type { HeroIcon } from "~/types";
-import Banned from "~/components/Banned";
+import NotAvailable from "~/components/NotAvailable";
 import MobileMenu from "~/components/MobileMenu";
 import SideBarDesktop from "~/components/SideBarDesktop";
 
@@ -44,13 +44,13 @@ export async function loader({ request }: LoaderArgs) {
   if (country === 'US') {
     return json({
       user: null,
-      banned: true
+      notAvaileble: true
     }, headers)
   }
 
   return json({
     user: await getUser(request),
-    banned: false
+    notAvaileble: false
   }, headers);
 }
 
@@ -80,7 +80,7 @@ const navigation: { name: string; href: string; icon: HeroIcon }[] = [
 ];
 
 export default function App() {
-  const { user, banned } = useLoaderData<typeof loader>();
+  const { user, notAvaileble } = useLoaderData<typeof loader>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const transition = useTransition();
@@ -96,7 +96,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        {!banned ?
+        {!notAvaileble ?
           user ? (
             <div>
               <MobileMenu
@@ -132,7 +132,7 @@ export default function App() {
           ) : (
             <Outlet />
           )
-          : <Banned />
+          : <NotAvailable />
         }
         <ScrollRestoration />
         <Scripts />

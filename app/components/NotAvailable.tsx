@@ -1,6 +1,6 @@
 import { MegaphoneIcon } from "@heroicons/react/24/outline";
 
-export default function Banned() {
+export default function NotAvailable() {
   return (
     <div className="bg-red-600">
       <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
