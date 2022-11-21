@@ -20,9 +20,6 @@ export default function Header({
   };
   return (
     <div>
-      {/*<h3 className="text-lg font-medium leading-6 text-gray-900">
-        Last 30 days
-      </h3> */}
       <dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
         <Card
           name="Bitcoin"
@@ -30,13 +27,13 @@ export default function Header({
           balance30DaysAgo={balance30DaysAgo.balanceBtc}
         />
         <Card
-          name="Usd"
+          name="USD"
           balance={balanceUsd}
           balance30DaysAgo={balance30DaysAgo.balanceUsd}
         />
         <Card
-          name="Portfolio In Usd"
-          balance={balanceUsd + parseFloat(usdEquivalent)}
+          name="Portfolio Value In USD"
+          balance={usdEquivalent}
           balance30DaysAgo={balance30DaysAgo.balanceUsd + parseFloat(balance30DaysAgo.usdEquivalent)}
         />
       </dl>
