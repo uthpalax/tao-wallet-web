@@ -39,19 +39,18 @@ export const meta: MetaFunction = () => ({
 });
 
 export async function loader({ request }: LoaderArgs) {
-  const headers = { status: 200, headers: { 'cache-control': 'max-age=1000' } };
   const country = await getClientIPAddressCountry(request);
   if (country === 'US') {
     return json({
       user: null,
       notAvaileble: true
-    }, headers)
+    })
   }
 
   return json({
     user: await getUser(request),
     notAvaileble: false
-  }, headers);
+  });
 }
 
 const navigation: { name: string; href: string; icon: HeroIcon }[] = [
