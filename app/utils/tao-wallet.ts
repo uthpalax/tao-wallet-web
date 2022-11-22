@@ -14,16 +14,16 @@ export const getTaoWallet = async (request: Request) => {
 
 const headerNames = Object.freeze([
   "fly-client-ip",
-  "X-Client-IP",
-  "X-Forwarded-For",
-  "CF-Connecting-IP",
-  "Fastly-Client-Ip",
-  "True-Client-Ip",
-  "X-Real-IP",
-  "X-Cluster-Client-IP",
-  "X-Forwarded",
-  "Forwarded-For",
-  "Forwarded",
+  "x-client-ip",
+  "x-forwarded-for",
+  "cf-connecting-ip",
+  "fastly-client-ip",
+  "true-client-ip",
+  "x-real-ip",
+  "x-cluster-client-ip",
+  "x-forwarded",
+  "forwarded-for",
+  "forwarded",
 ] as const);
 
 
@@ -52,7 +52,7 @@ export const getClientIPAddressCountry = async (
   let ipAddress = headerNames
     .flatMap((headerName) => {
       let value = headers.get(headerName);
-      if (headerName === "Forwarded") {
+      if (headerName === "forwarded") {
         return parseForwardedHeader(value);
       }
       if (!value?.includes(", ")) return value;
