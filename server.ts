@@ -18,6 +18,7 @@ app.use((req, res, next) => {
     res.redirect(301, safepath + query);
     return;
   }
+  req.headers['ip-address'] = req.headers['fly-client-ip'];
   next();
 });
 

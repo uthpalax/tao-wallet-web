@@ -13,6 +13,7 @@ export const getTaoWallet = async (request: Request) => {
 };
 
 const headerNames = Object.freeze([
+  "ip-address",
   "fly-client-ip",
   "x-client-ip",
   "x-forwarded-for",
