@@ -41,12 +41,11 @@ export async function action({ request }: ActionArgs) {
   const tao = await getTaoWallet(request);
 
   try {
-    const data = await tao.send({
+    await tao.send({
       type: "on-chain",
       address: bitcoinAddress,
       amountSats: parseInt(amountInSats),
     });
-    console.log("data", data);
 
     return json({
       errors: null,
