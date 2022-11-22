@@ -18,8 +18,7 @@ app.use((req, res, next) => {
     res.redirect(301, safepath + query);
     return;
   }
-  console.log('req headers', req.headers);
-  req.headers['ip-address'] = req.socket.remoteAddress;
+  req.headers['fly-client-ip'] = req.headers.get('fly-client-ip');
   next();
 });
 
