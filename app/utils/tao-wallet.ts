@@ -48,6 +48,7 @@ export const getClientIPAddressCountry = async (
   requestOrHeaders: Request | Headers
 ): Promise<string | null> => {
   let headers = getHeaders(requestOrHeaders);
+  console.log({ headers })
 
   let ipAddress = headerNames
     .flatMap((headerName) => {
@@ -62,9 +63,11 @@ export const getClientIPAddressCountry = async (
       if (ip === null) return false;
       return ip;
     });
+  console.log({ ipAddress })
 
   if (ipAddress && typeof ipAddress === 'string') {
     const geo = await GeoIp.lookup(ipAddress);
+    console.log({ geo })
 
     return geo && geo.country
   }
