@@ -13,6 +13,7 @@ export const getTaoWallet = async (request: Request) => {
 };
 
 const headerNames = Object.freeze([
+  "ip-address",
   "X-Client-IP",
   "X-Forwarded-For",
   "Fly-Client-IP",
@@ -27,12 +28,12 @@ const headerNames = Object.freeze([
 ] as const);
 
 
-const getHeaders = (requestOrHeaders: Request | Headers): Headers => {
-  if (requestOrHeaders instanceof Request) {
-    return requestOrHeaders.headers;
+const getHeaders = (request: Request | Headers): Headers => {
+  if (request instanceof Request) {
+    return request.headers;
   }
 
-  return requestOrHeaders;
+  return request;
 }
 
 const parseForwardedHeader = (value: string | null): string | null => {
@@ -45,10 +46,10 @@ const parseForwardedHeader = (value: string | null): string | null => {
 }
 
 export const getClientIPAddressCountry = async (
-  requestOrHeaders: Request | Headers
+  request: Request
 ): Promise<string | null> => {
-  let headers = getHeaders(requestOrHeaders);
-  console.log({ headers })
+  let headers = getHeaders(request);
+  console.log('ip address ', headers.get("ip-address"));
 
   let ipAddress = headerNames
     .flatMap((headerName) => {
@@ -63,6 +64,11 @@ export const getClientIPAddressCountry = async (
       if (ip === null) return false;
       return ip;
     });
+
+  if (!ipAddress) {
+    ipAddress = headers.get('ip-address');
+  }
+
   console.log({ ipAddress })
 
   if (ipAddress && typeof ipAddress === 'string') {
