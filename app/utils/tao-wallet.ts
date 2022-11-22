@@ -64,17 +64,13 @@ export const getClientIPAddressCountry = async (
       return ip;
     });
 
-  console.log({ ipAddress })
-
   if (ipAddress && typeof ipAddress === 'string') {
     const geo = await GeoIp.lookup(ipAddress);
-    console.log({ geo })
 
     return geo && geo.country
   }
 
   return null
-
 }
 
 export { default } from "tao-wallet";
